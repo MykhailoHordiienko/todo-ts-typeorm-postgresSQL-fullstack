@@ -32,7 +32,7 @@ export default class TodoService {
   }
 
   async deleteTodo(id: string) {
-    await ToDo.delete(id);
+    await this.db.delete(id);
     return { message: `ToDo with id: ${id} deleted` };
   }
 }
