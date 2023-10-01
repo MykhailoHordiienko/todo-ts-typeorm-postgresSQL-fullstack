@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import * as Styled from './toggleButton.styled';
 
 type ToggleButtonType = {
@@ -7,19 +7,11 @@ type ToggleButtonType = {
   disabled?: boolean;
 };
 
-const ToggleButton = ({ status, action, disabled = false }: ToggleButtonType) => {
-  const [checked, setChecked] = useState(status);
-
-  useEffect(() => {
-    setChecked(status);
-  }, [status]);
-
-  return (
-    <Styled.Label>
-      <Styled.Input checked={checked} type="checkbox" disabled={disabled} onChange={action} />
-      <Styled.Switch />
-    </Styled.Label>
-  );
-};
+const ToggleButton = ({ status, action, disabled = false }: ToggleButtonType) => (
+  <Styled.Label>
+    <Styled.Input checked={status} type="checkbox" disabled={disabled} onChange={action} />
+    <Styled.Switch />
+  </Styled.Label>
+);
 
 export default ToggleButton;
