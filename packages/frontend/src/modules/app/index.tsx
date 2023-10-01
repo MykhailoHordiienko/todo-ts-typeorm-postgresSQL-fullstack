@@ -1,12 +1,13 @@
 import React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ThemeProvider } from 'styled-components';
+import { BrowserRouter } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import { MainRouter } from '../navigation';
 
 import * as theme from '../theme';
 import * as Styled from './app.styled';
-import '../../style.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,13 +22,16 @@ const queryClient = new QueryClient({
 });
 
 const AppContainer = () => (
-  <ThemeProvider theme={theme}>
-    <Styled.GlobalStyles />
-    <QueryClientProvider client={queryClient}>
-      <MainRouter />
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
-  </ThemeProvider>
+  <BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <Styled.GlobalStyles />
+      <QueryClientProvider client={queryClient}>
+        <MainRouter />
+        <Toaster position="top-right" reverseOrder={false} />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </ThemeProvider>
+  </BrowserRouter>
 );
 
 export default AppContainer;
