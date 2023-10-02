@@ -7,14 +7,11 @@ import Input from '../input/input.component';
 import TextArea from '../textArea/textArea.component';
 import Button from '../button/button.component';
 import { useTodosAddMutation } from '../../hooks/useTodoQuery';
+import { FORMIK_CONST } from '../../consts/formik.const';
 
 const AddTodo = ({ toggleModal }: AddTodoComponentType) => {
-  const { mutate: addTodo } = useTodosAddMutation();
+  const { addTodo } = useTodosAddMutation();
 
-  const initialFormikValues = {
-    title: '',
-    description: ''
-  };
   const onSubmit = (todo: AddTodoType, { resetForm }: FormikHelpers<AddTodoType>) => {
     addTodo(todo);
     resetForm();
@@ -26,7 +23,11 @@ const AddTodo = ({ toggleModal }: AddTodoComponentType) => {
   return (
     <>
       <h2>Add Todo</h2>
-      <Formik initialValues={initialFormikValues} validationSchema={TodoSchema} onSubmit={onSubmit}>
+      <Formik
+        initialValues={FORMIK_CONST.TODO_ADD}
+        validationSchema={TodoSchema}
+        onSubmit={onSubmit}
+      >
         {({ isValid, dirty }) => (
           <Styled.StyledForm>
             <Field name="title" placeholder="Title" type="text" component={Input} />

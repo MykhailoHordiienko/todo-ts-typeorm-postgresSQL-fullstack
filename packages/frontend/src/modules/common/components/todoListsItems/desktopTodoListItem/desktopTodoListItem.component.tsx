@@ -10,23 +10,18 @@ import { useTodosDeleteMutation, useTodosUpdateMutation } from '../../../hooks/u
 const DesktopTodoListItem = ({ description, id, isCompleted, title }: TodoType) => {
   const [isModal, setIsModal] = useState(false);
 
-  const { mutate: deleteTodo, isLoading: deleting } = useTodosDeleteMutation();
-  const { mutate: upDateTodo, isLoading: updating } = useTodosUpdateMutation();
+  const updatedTodo = {
+    id,
+    description,
+    title,
+    isCompleted: !isCompleted
+  };
+
+  const { deleteTodo, deleting } = useTodosDeleteMutation(id);
+  const { upDateTodo, updating } = useTodosUpdateMutation(updatedTodo);
 
   const handleModal = () => {
     setIsModal(!isModal);
-  };
-
-  const handleDeleteTodo = () => deleteTodo(id);
-  const handleUpdateTodo = () => {
-    const updatedTodo = {
-      id,
-      description,
-      title,
-      isCompleted: !isCompleted
-    };
-
-    upDateTodo(updatedTodo);
   };
 
   return (
@@ -37,8 +32,8 @@ const DesktopTodoListItem = ({ description, id, isCompleted, title }: TodoType) 
         <Styled.Td>
           <Styled.ButtonContainer>
             <Button type="button" title="View" action={handleModal} />
-            <Button disabled={deleting} type="button" title="Delete" action={handleDeleteTodo} />
-            <ToggleButton status={isCompleted} disabled={updating} action={handleUpdateTodo} />
+            <Button disabled={deleting} type="button" title="Delete" action={deleteTodo} />
+            <ToggleButton status={isCompleted} disabled={updating} action={upDateTodo} />
           </Styled.ButtonContainer>
         </Styled.Td>
       </tr>

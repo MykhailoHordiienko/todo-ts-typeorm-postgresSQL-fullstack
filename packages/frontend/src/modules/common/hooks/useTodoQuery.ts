@@ -16,11 +16,11 @@ export const useTodosQuery = (state: string, stateId: string) =>
     }
   });
 
-export const useTodosDeleteMutation = () => {
+export const useTodosDeleteMutation = (id: string) => {
   const client = useQueryClient();
 
-  return useMutation({
-    mutationFn: (id: string) => todoService.deleteTodo(id),
+  const { mutate: deleteTodo, isLoading: deleting } = useMutation({
+    mutationFn: () => todoService.deleteTodo(id),
     onSuccess: () => {
       client.invalidateQueries();
       toast.success('Successfully Update!');
@@ -31,13 +31,14 @@ export const useTodosDeleteMutation = () => {
       }
     }
   });
+  return { deleteTodo, deleting };
 };
 
-export const useTodosUpdateMutation = () => {
+export const useTodosUpdateMutation = (updatedTodo: TodoType) => {
   const client = useQueryClient();
 
-  return useMutation({
-    mutationFn: (updatedTodo: TodoType) => todoService.updateTodo(updatedTodo),
+  const { mutate: upDateTodo, isLoading: updating } = useMutation({
+    mutationFn: () => todoService.updateTodo(updatedTodo),
     onSuccess: () => {
       client.invalidateQueries();
       toast.success('Successfully Update!');
@@ -48,12 +49,13 @@ export const useTodosUpdateMutation = () => {
       }
     }
   });
+  return { upDateTodo, updating };
 };
 
 export const useTodosAddMutation = () => {
   const client = useQueryClient();
 
-  return useMutation({
+  const { mutate: addTodo } = useMutation({
     mutationFn: (updatedTodo: AddTodoType) => todoService.addTodo(updatedTodo),
     onSuccess: () => {
       client.invalidateQueries();
@@ -65,4 +67,5 @@ export const useTodosAddMutation = () => {
       }
     }
   });
+  return { addTodo };
 };
