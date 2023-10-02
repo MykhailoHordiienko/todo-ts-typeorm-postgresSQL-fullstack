@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser';
 import express, { ErrorRequestHandler } from 'express';
 import 'dotenv/config';
+import cors from 'cors';
 
 import AppRouter from './routes';
 
@@ -10,6 +11,7 @@ const router = new AppRouter(app);
 // app.set('port', process.env.PORT || 4200);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 
 router.init();
 
