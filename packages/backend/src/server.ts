@@ -1,7 +1,7 @@
 import app from './app';
 import connectDB from './config/database';
 
-const port = process.env.PORT || 4200;
+const port = process.env.SERVER_PORT || 4200;
 
 connectDB
   .initialize()

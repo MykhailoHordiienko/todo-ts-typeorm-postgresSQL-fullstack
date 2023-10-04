@@ -1,4 +1,6 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+// eslint-disable-next-line
+import { User } from './User';
 
 @Entity()
 export class ToDo extends BaseEntity {
@@ -13,4 +15,14 @@ export class ToDo extends BaseEntity {
 
   @Column({ default: false })
   isCompleted: boolean;
+
+  @Column({ default: true })
+  private: boolean;
+
+  @Column()
+  userId: string;
+
+  @ManyToOne(() => User, (user) => user.todos)
+  @JoinColumn({ name: 'userId' })
+  user: User;
 }

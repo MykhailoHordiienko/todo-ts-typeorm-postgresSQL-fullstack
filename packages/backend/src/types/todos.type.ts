@@ -10,3 +10,8 @@ export type TypeUpdateTodo = {
   description: string;
   isCompleted: boolean;
 };
+
+export type TypeNodeMailer = {
+  email: string;
+  verificationToken: string;
+};

@@ -3,13 +3,14 @@ import express, { ErrorRequestHandler } from 'express';
 import 'dotenv/config';
 
 import AppRouter from './routes';
+import { passportJwt } from './utils/passport';
 
 const app = express();
 const router = new AppRouter(app);
 
-// app.set('port', process.env.PORT || 4200);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(passportJwt);
 
 router.init();
 
