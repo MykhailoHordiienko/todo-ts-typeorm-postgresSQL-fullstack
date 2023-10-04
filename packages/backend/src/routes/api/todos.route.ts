@@ -5,25 +5,29 @@ import { ToDo } from '../../entities/ToDo';
 import tryCatchWrapper from '../../middlewares/tryCatchWrapper';
 import validateBody from '../../middlewares/validateBody';
 import schemas from '../../schemas/todoSchemas';
+import authJwt from '../../middlewares/auth';
 
 const todosRouter: Router = Router();
 
-todosRouter.get('', tryCatchWrapper(todoController.getAllTodo.bind(todoController)));
+todosRouter.get('', authJwt, tryCatchWrapper(todoController.getAllTodo.bind(todoController)));
 
 todosRouter.get(
   '/:id',
+  authJwt,
   isExist(ToDo),
   tryCatchWrapper(todoController.getTodoById.bind(todoController))
 );
 
 todosRouter.post(
   '',
+  authJwt,
   validateBody(schemas.createTodoSchema),
   tryCatchWrapper(todoController.addTodo.bind(todoController))
 );
 
 todosRouter.put(
   '/:id',
+  authJwt,
   isExist(ToDo),
   validateBody(schemas.updateTodoSchema),
   tryCatchWrapper(todoController.updateTodo.bind(todoController))
@@ -31,6 +35,7 @@ todosRouter.put(
 
 todosRouter.delete(
   '/:id',
+  authJwt,
   isExist(ToDo),
   tryCatchWrapper(todoController.deleteTodo.bind(todoController))
 );

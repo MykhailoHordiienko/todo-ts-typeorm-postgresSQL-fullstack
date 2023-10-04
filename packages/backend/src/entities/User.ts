@@ -1,10 +1,24 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+// eslint-disable-next-line
+import { ToDo } from './ToDo';
 
 @Entity()
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
+
+  @Column()
+  password: string;
+
+  @Column({ default: false })
+  isVerified: boolean;
+
+  @Column({ default: null })
+  verificationToken: string;
+
+  @OneToMany(() => ToDo, (todo) => todo.userId)
+  todos: ToDo[];
 }

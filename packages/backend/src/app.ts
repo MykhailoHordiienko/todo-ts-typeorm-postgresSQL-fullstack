@@ -4,14 +4,15 @@ import 'dotenv/config';
 import cors from 'cors';
 
 import AppRouter from './routes';
+import { passportJwt } from './utils/passport';
 
 const app = express();
 const router = new AppRouter(app);
 
-// app.set('port', process.env.PORT || 4200);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
+app.use(passportJwt);
 
 router.init();
 
