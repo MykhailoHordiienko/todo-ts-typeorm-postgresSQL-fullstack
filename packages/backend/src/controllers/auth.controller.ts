@@ -46,7 +46,7 @@ export class AuthController {
 
     await this.authService.updateUser(user.id, updateUser);
 
-    res.redirect(process.env.VERIFI_REDIRECT_URL || 'http://localhost:3000');
+    res.redirect(process.env.VERIFI_REDIRECT_URL || 'http://localhost:3000/login');
   }
 
   async login(req: Request, res: Response) {
@@ -54,6 +54,10 @@ export class AuthController {
     const userCheck = await this.authService.getUserByEmail(email);
     if (!userCheck) {
       throw HttpError(401, 'Email or password is wrong');
+    }
+
+    if (!userCheck.isVerified) {
+      throw HttpError(401, 'Verify Email!');
     }
 
     const comparePassword = await compareToHash(password, userCheck.password);
@@ -94,6 +98,14 @@ export class AuthController {
     };
 
     res.status(200).json(response);
+  }
+
+  async current(req: Request, res: Response) {
+    const { user } = req;
+    if (!user) {
+      throw HttpError(401, 'Unauthorized');
+    }
+    res.status(200).json('Ok');
   }
 
   async getAll(req: Request, res: Response) {

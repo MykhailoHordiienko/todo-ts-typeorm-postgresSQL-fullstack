@@ -1,16 +1,22 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import axios, { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
 import HttpTodoService from '../../../services/httpTodo.service';
 import { AddTodoType, TodoType } from '../types/student.types';
+import { QUERY_KEYS } from '../consts/app-keys.const';
 
 const todoService = new HttpTodoService();
 
-export const useTodosQuery = (state: string, stateId: string) =>
+export const useTodosQuery = () =>
   useQuery({
     queryFn: () => todoService.getTodos(),
-    queryKey: [state, stateId],
-    onError: (err) => {
-      if (err instanceof Error) {
+    queryKey: [QUERY_KEYS.STATE, QUERY_KEYS.ALL],
+    onError: (err: Error | AxiosError) => {
+      if (axios.isAxiosError(err)) {
+        if (err?.response?.data.message !== 'Unauthorized') {
+          toast.error(err?.response?.data.message);
+        }
+      } else {
         toast.error(`${err.message} Reload Please`);
       }
     }
@@ -68,4 +74,10 @@ export const useTodosAddMutation = () => {
     }
   });
   return { addTodo };
+};
+
+export const useCancelQueryTodo = () => {
+  const { cancelQueries } = useQueryClient();
+  const cancelRequest = () => cancelQueries({ queryKey: [QUERY_KEYS.STATE, QUERY_KEYS.ALL] });
+  return cancelRequest;
 };

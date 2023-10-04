@@ -12,22 +12,25 @@ export default class HttpTodoService {
   }
 
   async getTodos() {
-    const { data } = await this.httpTodoService.get<TodoType[]>({ url: URL });
+    const { data } = await this.httpTodoService.get<TodoType[]>({ url: URL }, true);
     return data;
   }
 
   async addTodo(todo: AddTodoType) {
-    await this.httpTodoService.post<AddTodoType>({ url: URL, data: todo });
+    await this.httpTodoService.post<AddTodoType>({ url: URL, data: todo }, true);
   }
 
   async updateTodo({ id, ...updatedTodo }: TodoType) {
-    await this.httpTodoService.put<TodoType>({
-      url: `${URL}/${id}`,
-      data: updatedTodo
-    });
+    await this.httpTodoService.put<TodoType>(
+      {
+        url: `${URL}/${id}`,
+        data: updatedTodo
+      },
+      true
+    );
   }
 
   async deleteTodo(id: string) {
-    await this.httpTodoService.delete<null>({ url: `${URL}/${id}` });
+    await this.httpTodoService.delete<null>({ url: `${URL}/${id}` }, true);
   }
 }
