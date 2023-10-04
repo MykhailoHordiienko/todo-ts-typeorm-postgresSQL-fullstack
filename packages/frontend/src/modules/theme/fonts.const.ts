@@ -5,10 +5,23 @@ export const SIZES = {
 };
 
 export const FAMILIES = {
-  normal: 'Arial'
+  normal: 'Roboto'
 };
 
 export const WEIGHTS = {
-  bold: '800',
-  normal: '500'
+  bold: '700',
+  normal: '400'
 };
+
+export const LINEHEIGHT = {
+  m: '1.14',
+  s: '1'
+};
+
+// ${(props) => props.theme.FONTS.LINEHEIGHT.m}
+
+export const LETERSPACING = {
+  s: '0.03em'
+};
+
+// ${(props) => props.theme.FONTS.LETERSPACING.s}

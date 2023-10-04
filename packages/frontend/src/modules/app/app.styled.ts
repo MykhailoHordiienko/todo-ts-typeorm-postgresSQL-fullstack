@@ -3,11 +3,16 @@ import { COLORS } from '../theme';
 
 // eslint-disable-next-line import/prefer-default-export
 export const GlobalStyles = createGlobalStyle`
+
   *,
   *::before,
   *::after {
     box-sizing: border-box;
   }
+
+  ::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;} /* make scrollbar transparent */
 
   ul[class],
   ol[class] {
@@ -32,7 +37,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    font-family: Poppins, sans-serif;
+    font-family: 'Roboto', sans-serif;
     min-height: 100vh;
     scroll-behavior: smooth;
     text-rendering: optimizeSpeed;
