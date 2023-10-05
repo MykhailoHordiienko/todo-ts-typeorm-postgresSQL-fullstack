@@ -12,7 +12,6 @@ const todoService = new HttpTodoService();
 export const useTodosQuery = () => {
   const [searchParams] = useSearchParams();
   const { filter, search } = Object.fromEntries([...searchParams]);
-  console.log(filter);
 
   const { data, isSuccess, isLoading, isError, refetch } = useQuery({
     queryFn: () => todoService.getTodos(filter, search),
