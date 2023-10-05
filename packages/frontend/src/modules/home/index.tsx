@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import Container from '../common/components/container/container.component';
 import AddTodo from '../common/components/addTodo/addTodo.component';
 import Modal from '../common/components/modal/modal.component';
@@ -11,7 +12,6 @@ import DesktopTodoList from '../common/components/todoLists/desktopTodoList/desk
 import useScreenSize from '../common/hooks/useScreenSize';
 import { IComponents } from '../common/types/student.types';
 import { useTodosQuery } from '../common/hooks/useTodoQuery';
-import { QUERY_KEYS } from '../common/consts/app-keys.const';
 import Error from '../common/components/error/error.component';
 import Loader from '../common/components/loader/loader.component';
 
@@ -25,7 +25,7 @@ const HomePageContainer = () => {
   const [isModal, setIsModal] = useState(false);
   const devise = useScreenSize();
 
-  const { data, isSuccess, isLoading, isError } = useTodosQuery(QUERY_KEYS.STATE, QUERY_KEYS.ALL);
+  const { data, isSuccess, isLoading, isError } = useTodosQuery();
 
   const toggleModal = () => {
     setIsModal(!isModal);

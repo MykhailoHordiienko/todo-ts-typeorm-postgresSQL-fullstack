@@ -28,7 +28,7 @@ export default class HttpService {
     const token = localStorageService.get<string | null>('token');
     if (token === null) return {};
     return {
-      Authorization: token
+      Authorization: `Bearer ${token}`
     };
   }
 

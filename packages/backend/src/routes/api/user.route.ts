@@ -3,6 +3,7 @@ import tryCatchWrapper from '../../middlewares/tryCatchWrapper';
 import authController from '../../controllers/auth.controller';
 import validateBody from '../../middlewares/validateBody';
 import schemas from '../../schemas/authSchemas';
+import authJwt from '../../middlewares/auth';
 
 const userRouter: Router = Router();
 
@@ -27,6 +28,8 @@ userRouter.put(
   validateBody(schemas.updateSchema),
   tryCatchWrapper(authController.changePassword.bind(authController))
 );
+
+userRouter.get('/current', authJwt, tryCatchWrapper(authController.current.bind(authController)));
 
 userRouter.get('/all', tryCatchWrapper(authController.getAll.bind(authController)));
 
