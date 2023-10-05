@@ -3,7 +3,6 @@ import { AuthResponseType, AuthType } from '../modules/common/types/student.type
 import HttpService from './http.service';
 
 const { LOGIN_USER, REGISTER_USER, CURRENT_USER } = BACKEND_KEYS;
-// const { LOGIN_USER, REGISTER_USER, UPDATE_USER } = BACKEND_KEYS;
 
 export default class HttpAuthService {
   private httpAuthService: HttpService;
