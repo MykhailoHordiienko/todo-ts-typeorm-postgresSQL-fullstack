@@ -1,9 +1,8 @@
 import { BACKEND_KEYS } from '../modules/common/consts/app-keys.const';
-import { AuthResponseType, AuthType } from '../modules/common/types/student.types';
+import { AuthResponseType, AuthType, UpdateAuthType } from '../modules/common/types/student.types';
 import HttpService from './http.service';
 
-const { LOGIN_USER, REGISTER_USER, CURRENT_USER } = BACKEND_KEYS;
-// const { LOGIN_USER, REGISTER_USER, UPDATE_USER } = BACKEND_KEYS;
+const { LOGIN_USER, REGISTER_USER, CURRENT_USER, UPDATE_USER } = BACKEND_KEYS;
 
 export default class HttpAuthService {
   private httpAuthService: HttpService;
@@ -19,6 +18,15 @@ export default class HttpAuthService {
   async signIn(userData: AuthType) {
     const user = await this.httpAuthService.post<AuthResponseType>({
       url: LOGIN_USER,
+      data: userData
+    });
+
+    return user;
+  }
+
+  async update(userData: UpdateAuthType) {
+    const user = await this.httpAuthService.put<AuthResponseType>({
+      url: UPDATE_USER,
       data: userData
     });
 

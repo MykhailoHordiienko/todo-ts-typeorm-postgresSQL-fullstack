@@ -5,7 +5,7 @@ import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AUTH_KEY } from '../consts/app-keys.const';
 import HttpAuthService from '../../../services/httpAuth.service';
-import { AuthType } from '../types/student.types';
+import { AuthType, UpdateAuthType } from '../types/student.types';
 import localStorageService from '../../../services/localStorage.service';
 import { APP_KEYS } from '../consts';
 
@@ -70,4 +70,34 @@ export const useAuthSignUp = () => {
     }
   });
   return { signUp, isSuccess };
+};
+
+export const useUpdateUser = () => {
+  const { mutate: updateUser, isSuccess } = useMutation({
+    mutationFn: (data: UpdateAuthType) => authService.update(data),
+    onSuccess: () => {
+      toast.success('Password Changed!');
+    },
+    onError: (err: Error | AxiosError) => {
+      if (axios.isAxiosError(err)) {
+        toast.error(err?.response?.data.message);
+      } else {
+        toast.error(`${err.message} Reload Please`);
+      }
+    }
+  });
+  return { updateUser, isSuccess };
+};
+
+export const useLogOutUser = () => {
+  const client = useQueryClient();
+
+  const navigate = useNavigate();
+  const logOut = () => {
+    localStorageService.remove('token');
+    client.removeQueries();
+    navigate(APP_KEYS.ROUTER_KEYS.ROOT, { replace: true });
+  };
+
+  return { logOut };
 };

@@ -1,10 +1,15 @@
 import styled from 'styled-components';
 
-export const Button = styled.button`
+interface IButton {
+  readonly $isActive?: boolean;
+}
+
+export const Button = styled.button<IButton>`
   width: fit-content;
   white-space: nowrap;
   min-width: auto;
-  background-color: ${(props) => props.theme.COLORS.primary};
+  background-color: ${(props) =>
+    props.$isActive ? props.theme.COLORS.accent : props.theme.COLORS.primary};
   transition-property: background-color, box-shadow, color;
   transition-duration: ${(props) => props.theme.ANIMATIONS.DELAY.button};
   transition-timing-function: ${(props) => props.theme.ANIMATIONS.CUBIC.button};

@@ -1,15 +1,21 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useSearchParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
+import { useEffect } from 'react';
 import HttpTodoService from '../../../services/httpTodo.service';
 import { AddTodoType, TodoType } from '../types/student.types';
 import { QUERY_KEYS } from '../consts/app-keys.const';
 
 const todoService = new HttpTodoService();
 
-export const useTodosQuery = () =>
-  useQuery({
-    queryFn: () => todoService.getTodos(),
+export const useTodosQuery = () => {
+  const [searchParams] = useSearchParams();
+  const { filter, search } = Object.fromEntries([...searchParams]);
+  console.log(filter);
+
+  const { data, isSuccess, isLoading, isError, refetch } = useQuery({
+    queryFn: () => todoService.getTodos(filter, search),
     queryKey: [QUERY_KEYS.STATE, QUERY_KEYS.ALL],
     onError: (err: Error | AxiosError) => {
       if (axios.isAxiosError(err)) {
@@ -21,6 +27,11 @@ export const useTodosQuery = () =>
       }
     }
   });
+  useEffect(() => {
+    refetch();
+  }, [filter, search]);
+  return { data, isSuccess, isLoading, isError, refetch };
+};
 
 export const useTodosDeleteMutation = (id: string) => {
   const client = useQueryClient();
@@ -40,10 +51,10 @@ export const useTodosDeleteMutation = (id: string) => {
   return { deleteTodo, deleting };
 };
 
-export const useTodosUpdateMutation = (updatedTodo: TodoType) => {
+export const useTodosUpdateStatusMutation = (updatedTodo: TodoType) => {
   const client = useQueryClient();
 
-  const { mutate: upDateTodo, isLoading: updating } = useMutation({
+  const { mutate: upDateTodoStatus, isLoading: updatingStatus } = useMutation({
     mutationFn: () => todoService.updateTodo(updatedTodo),
     onSuccess: () => {
       client.invalidateQueries();
@@ -55,7 +66,25 @@ export const useTodosUpdateMutation = (updatedTodo: TodoType) => {
       }
     }
   });
-  return { upDateTodo, updating };
+  return { upDateTodoStatus, updatingStatus };
+};
+
+export const useTodosUpdatePrivateMutation = (updatedTodo: TodoType) => {
+  const client = useQueryClient();
+
+  const { mutate: upDateTodoPrivate, isLoading: updatingPrivate } = useMutation({
+    mutationFn: () => todoService.updateTodo(updatedTodo),
+    onSuccess: () => {
+      client.invalidateQueries();
+      toast.success('Successfully Update!');
+    },
+    onError: (err) => {
+      if (err instanceof Error) {
+        toast.error(`${err.message} Reload Please`);
+      }
+    }
+  });
+  return { upDateTodoPrivate, updatingPrivate };
 };
 
 export const useTodosAddMutation = () => {

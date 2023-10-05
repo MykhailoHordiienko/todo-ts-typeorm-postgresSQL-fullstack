@@ -23,7 +23,7 @@ const AuthPageContainer = () => {
           </Styled.LinkContainer>
         )}
       </Styled.Container>
-      <Outlet />
+      {isLoading ? null : <Outlet />}
     </Container>
   );
 };

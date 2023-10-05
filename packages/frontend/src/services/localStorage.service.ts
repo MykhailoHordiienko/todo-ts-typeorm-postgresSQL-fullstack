@@ -1,28 +1,3 @@
-// const save = (key: string, value) => {
-//   try {
-//     const serializedState = JSON.stringify(value);
-//     localStorage.setItem(key, serializedState);
-//   } catch (error) {
-//     // eslint-disable-next-line
-//     console.error('Set state error: ', error.message);
-//   }
-// };
-
-// const get = (key: string) => {
-//   try {
-//     const serializedState = localStorage.getItem(key);
-//     return serializedState === null ? undefined : JSON.parse(serializedState);
-//   } catch (error) {
-//     // eslint-disable-next-line
-//     console.error('Get state error: ', error.message);
-//   }
-// };
-
-// export default {
-//   save,
-//   get
-// };
-
 type LocalStorageValue<T> = T | null;
 
 const save = <T>(key: string, value: T): void => {
@@ -46,9 +21,14 @@ const get = <T>(key: string): LocalStorageValue<T> => {
   }
 };
 
+const remove = (key: string) => {
+  localStorage.removeItem(key);
+};
+
 const localStorageService = {
   save,
-  get
+  get,
+  remove
 };
 
 export default localStorageService;

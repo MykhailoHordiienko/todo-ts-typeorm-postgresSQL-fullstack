@@ -11,8 +11,11 @@ export default class HttpTodoService {
     this.httpTodoService = new HttpService();
   }
 
-  async getTodos() {
-    const { data } = await this.httpTodoService.get<TodoType[]>({ url: URL }, true);
+  async getTodos(filter = 'all', search = '') {
+    const { data } = await this.httpTodoService.get<TodoType[]>(
+      { url: `${URL}?filter=${filter}&search=${search}` },
+      true
+    );
     return data;
   }
 

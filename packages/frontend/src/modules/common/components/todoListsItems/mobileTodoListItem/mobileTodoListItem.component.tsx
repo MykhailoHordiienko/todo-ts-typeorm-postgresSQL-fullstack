@@ -5,20 +5,21 @@ import Button from '../../button/button.component';
 import ToggleButton from '../../toggleButton/toggleButton.component';
 import Modal from '../../modal/modal.component';
 import TodoView from '../../todoView/todoView.component';
-import { useTodosDeleteMutation, useTodosUpdateMutation } from '../../../hooks/useTodoQuery';
+import { useTodosDeleteMutation, useTodosUpdateStatusMutation } from '../../../hooks/useTodoQuery';
 
-const MobileTodoListItem = ({ description, id, isCompleted, title }: TodoType) => {
+const MobileTodoListItem = ({ description, id, isCompleted, title, personal }: TodoType) => {
   const [isModal, setIsModal] = useState(false);
 
   const updatedTodo = {
     id,
     description,
     title,
-    isCompleted: !isCompleted
+    isCompleted: !isCompleted,
+    personal
   };
 
   const { deleteTodo, deleting } = useTodosDeleteMutation(id);
-  const { upDateTodo, updating } = useTodosUpdateMutation(updatedTodo);
+  const { upDateTodoStatus, updatingStatus } = useTodosUpdateStatusMutation(updatedTodo);
 
   const handleModal = () => {
     setIsModal(!isModal);
@@ -36,7 +37,11 @@ const MobileTodoListItem = ({ description, id, isCompleted, title }: TodoType) =
             <Button disabled={deleting} type="button" title="Delete" action={deleteTodo} />
           </Styled.ActionContainer>
           <Styled.ToggleContainer>
-            <ToggleButton disabled={updating} status={isCompleted} action={upDateTodo} />
+            <ToggleButton
+              disabled={updatingStatus}
+              status={isCompleted}
+              action={upDateTodoStatus}
+            />
           </Styled.ToggleContainer>
         </Styled.Container>
       </Styled.Item>
@@ -47,6 +52,7 @@ const MobileTodoListItem = ({ description, id, isCompleted, title }: TodoType) =
           id={id}
           isCompleted={isCompleted}
           title={title}
+          personal={personal}
         />
       </Modal>
     </>

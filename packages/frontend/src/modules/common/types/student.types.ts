@@ -3,6 +3,7 @@ export type TodoType = {
   title: string;
   description: string;
   isCompleted: boolean;
+  personal: boolean;
 };
 export type AddTodoType = {
   title: string;
@@ -14,11 +15,17 @@ export type AuthType = {
   password: string;
 };
 
+export type UpdateAuthType = {
+  email: string;
+  password: string;
+  newPassword: string;
+};
+
 export type AuthResponseType = {
   token: string;
 } & AuthType;
 
-export type AddTodoComponentType = {
+export type AddModalType = {
   toggleModal?: () => void;
 };
 
@@ -42,8 +49,15 @@ export interface IComponents {
 export type ButtonType = {
   title: string;
   action?: () => void;
+  callBack?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   type: 'button' | 'submit' | 'reset' | undefined;
   disabled?: boolean;
+  isActive?: boolean;
+};
+
+export type SearchType = {
+  callBack: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value: string;
 };
 
 export type LinkType = {

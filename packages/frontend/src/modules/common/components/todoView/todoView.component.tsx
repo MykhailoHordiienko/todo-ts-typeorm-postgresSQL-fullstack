@@ -3,33 +3,42 @@ import ToggleButton from '../toggleButton/toggleButton.component';
 import Button from '../button/button.component';
 import { TodoViewType } from '../../types/student.types';
 import * as Styled from './todoView.styled';
-import { useTodosUpdateMutation } from '../../hooks/useTodoQuery';
+import {
+  useTodosUpdatePrivateMutation,
+  useTodosUpdateStatusMutation
+} from '../../hooks/useTodoQuery';
 
-const TodoView = ({ description, id, isCompleted, title, handleModal }: TodoViewType) => {
-  const updatedTodo = {
+const TodoView = ({ description, id, isCompleted, title, personal, handleModal }: TodoViewType) => {
+  const updatedTodoStatus = {
     id,
     description,
     title,
-    isCompleted: !isCompleted
+    isCompleted: !isCompleted,
+    personal
+  };
+  const updatedTodoPrivate = {
+    id,
+    description,
+    title,
+    isCompleted,
+    personal: !personal
   };
 
-  const { upDateTodo, updating } = useTodosUpdateMutation(updatedTodo);
+  const { upDateTodoStatus, updatingStatus } = useTodosUpdateStatusMutation(updatedTodoStatus);
+  const { upDateTodoPrivate, updatingPrivate } = useTodosUpdatePrivateMutation(updatedTodoPrivate);
 
   return (
     <Styled.ViewContainer>
-      <h2>
-        {title}
-        {id}
-      </h2>
+      <h2>{title}</h2>
       <h4>Description:</h4>
       <p>{description}</p>
       <Styled.ButtonContainer>
         <h4>Completed:</h4>
-        <ToggleButton disabled={updating} status={isCompleted} action={upDateTodo} />
+        <ToggleButton disabled={updatingStatus} status={isCompleted} action={upDateTodoStatus} />
       </Styled.ButtonContainer>
       <Styled.ButtonContainer>
         <h4>Private:</h4>
-        <ToggleButton status={isCompleted} action={upDateTodo} />
+        <ToggleButton disabled={updatingPrivate} status={personal} action={upDateTodoPrivate} />
       </Styled.ButtonContainer>
       <Button disabled={false} type="button" action={handleModal} title="Back" />
     </Styled.ViewContainer>

@@ -13,3 +13,21 @@ export const AuthSchema = object().shape({
     .matches(REGEEX.PASSWORD, REGEEX.PSSWORD_DESCRIPTION)
     .required('Enter Password')
 });
+
+export const UpDateAuthSchema = object().shape({
+  email: string()
+    .email()
+    .min(3, 'Minimum 4 characters')
+    .max(50, 'Maximum 50 characters')
+    .required('Enter Email'),
+  password: string()
+    .min(3, 'Minimum 3 characters')
+    .max(10, 'Maximum 10 characters')
+    .matches(REGEEX.PASSWORD, REGEEX.PSSWORD_DESCRIPTION)
+    .required('Enter Password'),
+  newPassword: string()
+    .min(3, 'Minimum 3 characters')
+    .max(10, 'Maximum 10 characters')
+    .matches(REGEEX.PASSWORD, REGEEX.PSSWORD_DESCRIPTION)
+    .required('Enter Password')
+});
