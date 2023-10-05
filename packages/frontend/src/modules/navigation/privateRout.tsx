@@ -11,8 +11,6 @@ const PrivateRout = ({
 }: RestrictedRouteType) => {
   const isLoggedIn = localStorageService.get(STORAGE_KEYS.TOKEN);
 
-  //   const { isFetching } = useAuthCurrent();
-  //   const shouldRedirect = !isLoggedIn && !isFetching;
   const shouldRedirect = !isLoggedIn;
 
   return shouldRedirect ? <Navigate to={redirectTo} /> : Component;

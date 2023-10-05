@@ -43,6 +43,4 @@ export default class HttpAuthService {
 
     return user;
   }
-
-  //   async upDateUser() {}
 }
