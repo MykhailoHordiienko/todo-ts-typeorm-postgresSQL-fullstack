@@ -38,8 +38,11 @@ export default class UserService {
     return user;
   }
 
-  async updateUser(id: string, userToUpdate: User) {
-    const user = await this.getUserById(id);
+  async updateUser(email: string, userToUpdate: User) {
+    const user = await this.getUserByEmail(email);
+    if (!user) {
+      throw HttpError(401, 'Email or password is wrong');
+    }
     this.db.merge(user, userToUpdate);
     const result = await this.createUser(user);
     return result;

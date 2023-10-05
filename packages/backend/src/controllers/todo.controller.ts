@@ -4,9 +4,14 @@ import TodoService from '../services/todo.service';
 export class TodoController {
   constructor(private todoService: TodoService) {}
 
-  async getAllTodo(req: Request, res: Response) {
+  async getTodo(req: Request, res: Response) {
     const { user } = req;
-    const todos = await this.todoService.getAllToDo(user as string);
+    const { filter, search } = req.query;
+    const todos = await this.todoService.getToDo(
+      user as string,
+      filter as string,
+      search as string
+    );
     res.send(todos);
   }
 
