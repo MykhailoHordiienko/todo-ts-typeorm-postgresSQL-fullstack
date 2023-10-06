@@ -9,7 +9,8 @@ const createTodoSchema = joi.object({
 const updateTodoSchema = joi.object({
   title: joi.string().required(),
   description: joi.string().required(),
-  isCompleted: joi.boolean().required()
+  isCompleted: joi.boolean().required(),
+  personal: joi.boolean().required()
 });
 
 export default { createTodoSchema, updateTodoSchema };

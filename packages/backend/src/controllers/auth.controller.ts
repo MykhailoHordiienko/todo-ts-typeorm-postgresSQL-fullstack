@@ -36,6 +36,7 @@ export class AuthController {
   async verifyEmail(req: Request, res: Response) {
     const { verificationToken } = req.params;
     const user = await this.authService.getUserByVerification(verificationToken);
+
     if (!user) {
       throw HttpError(404, 'User not found');
     }
@@ -44,9 +45,9 @@ export class AuthController {
     updateUser.isVerified = true;
     updateUser.verificationToken = '';
 
-    await this.authService.updateUser(user.id, updateUser);
+    await this.authService.updateUser(user.email, updateUser);
 
-    res.redirect(process.env.VERIFI_REDIRECT_URL || 'http://localhost:3000/login');
+    res.redirect(process.env.VERIFI_REDIRECT_URL || 'http://localhost:3000/');
   }
 
   async login(req: Request, res: Response) {
@@ -74,7 +75,7 @@ export class AuthController {
   }
 
   async changePassword(req: Request, res: Response) {
-    const { id, email, password, newPassword } = req.body;
+    const { email, password, newPassword } = req.body;
     const userCheck = await this.authService.getUserByEmail(email);
     if (!userCheck) {
       throw HttpError(401, 'Email or password is wrong');
@@ -90,8 +91,11 @@ export class AuthController {
     const updateUser = new User();
     updateUser.password = hashPassword;
 
-    await this.authService.updateUser(id, updateUser);
-    const updatedUser = await this.authService.getUserById(id);
+    await this.authService.updateUser(email, updateUser);
+    const updatedUser = await this.authService.getUserByEmail(email);
+    if (!updatedUser) {
+      throw HttpError(401, 'Email or password is wrong');
+    }
     const response = {
       id: updatedUser.id,
       email: updatedUser.email

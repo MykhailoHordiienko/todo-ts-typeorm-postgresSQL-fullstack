@@ -17,7 +17,7 @@ export class ToDo extends BaseEntity {
   isCompleted: boolean;
 
   @Column({ default: true })
-  private: boolean;
+  personal: boolean;
 
   @Column()
   userId: string;

@@ -6,7 +6,7 @@ const userSchema = Joi.object({
 });
 
 const updateSchema = Joi.object({
-  id: Joi.string().uuid().required(),
+  email: Joi.string().email().required(),
   password: Joi.string().min(5).required(),
   newPassword: Joi.string().min(5).required()
 });

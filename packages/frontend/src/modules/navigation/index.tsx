@@ -7,6 +7,7 @@ import LogIn from '../common/components/login/login.component';
 import SignUp from '../common/components/signup/signup.component';
 import RestrictedRout from './restrictedRout';
 import PrivateRout from './privateRout';
+import Error from '../common/components/error/error.component';
 
 export const MainRouter = () => {
   const TODOS_URL = `${APP_KEYS.ROUTER_KEYS.ROOT}${APP_KEYS.ROUTER_KEYS.TODOS}`;
@@ -30,6 +31,7 @@ export const MainRouter = () => {
             <PrivateRout redirectTo={APP_KEYS.ROUTER_KEYS.ROOT} component={<HomePageContainer />} />
           }
         />
+        <Route path="*" element={<Error />} />
       </Routes>
     </main>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field, Formik, FormikHelpers } from 'formik';
 import * as Styled from './addTodo.styled';
-import { AddTodoComponentType, AddTodoType } from '../../types/student.types';
+import { AddModalType, AddTodoType } from '../../types/student.types';
 import { TodoSchema } from '../../../../schemas/addTodo.schema';
 import Input from '../input/input.component';
 import TextArea from '../textArea/textArea.component';
@@ -9,7 +9,7 @@ import Button from '../button/button.component';
 import { useTodosAddMutation } from '../../hooks/useTodoQuery';
 import { FORMIK_CONST } from '../../consts/formik.const';
 
-const AddTodo = ({ toggleModal }: AddTodoComponentType) => {
+const AddTodo = ({ toggleModal }: AddModalType) => {
   const { addTodo } = useTodosAddMutation();
 
   const onSubmit = (todo: AddTodoType, { resetForm }: FormikHelpers<AddTodoType>) => {

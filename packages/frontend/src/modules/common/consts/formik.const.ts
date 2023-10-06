@@ -6,5 +6,10 @@ export const FORMIK_CONST = {
   AUTH: {
     email: '',
     password: ''
+  },
+  UPDATE_AUTH: {
+    email: '',
+    password: '',
+    newPassword: ''
   }
 };

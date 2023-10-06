@@ -9,7 +9,7 @@ import authJwt from '../../middlewares/auth';
 
 const todosRouter: Router = Router();
 
-todosRouter.get('', authJwt, tryCatchWrapper(todoController.getAllTodo.bind(todoController)));
+todosRouter.get('', authJwt, tryCatchWrapper(todoController.getTodo.bind(todoController)));
 
 todosRouter.get(
   '/:id',
