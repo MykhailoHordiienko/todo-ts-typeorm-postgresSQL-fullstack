@@ -1,4 +1,4 @@
-import { ILike } from 'typeorm';
+// import { ILike } from 'typeorm';
 import { ToDo } from '../entities/ToDo';
 import connectDB from '../config/database';
 import { HttpError } from '../helpers/HttpError';
@@ -8,72 +8,49 @@ import { TODO_FILTER } from '../const/consts';
 export default class TodoService {
   private db = connectDB.getRepository(ToDo);
 
-  async getToDo(user: string, filter: string, search: string) {
+  async getToDo(user: string, filter: string, search: string, page: number, pageSize: number) {
     const usedFilter = filter ?? TODO_FILTER.ALL;
+    let queryBuilder = this.db.createQueryBuilder('todo');
+
     switch (usedFilter) {
       case TODO_FILTER.ALL: {
-        const notPrivateTodos = await this.db.find({
-          where: {
-            personal: false,
-            title: ILike(`%${search}%`)
-          }
-        });
-        const userTodos = await this.db.find({
-          where: {
-            userId: user,
-            personal: !false,
-            title: ILike(`%${search}%`)
-          }
-        });
-        const todos = [...notPrivateTodos, ...userTodos];
-        return todos;
+        queryBuilder = queryBuilder
+          .where('(todo.personal = false AND todo.title ILike :search)')
+          .orWhere('(todo.userId = :userId AND todo.personal = true AND todo.title ILike :search)')
+          .setParameters({ userId: user, search: `%${search}%` });
+        break;
       }
       case TODO_FILTER.COMPLETED: {
-        const notPrivateTodos = await this.db.find({
-          where: {
-            personal: false,
-            isCompleted: true,
-            title: ILike(`%${search}%`)
-          }
-        });
-        const userTodos = await this.db.find({
-          where: {
-            userId: user,
-            personal: !false,
-            isCompleted: true,
-            title: ILike(`%${search}%`)
-          }
-        });
-        const todos = [...notPrivateTodos, ...userTodos];
-
-        return todos;
+        queryBuilder = queryBuilder
+          .where('(todo.personal = false AND todo.isCompleted = true AND todo.title ILike :search)')
+          .orWhere(
+            '(todo.userId = :userId AND todo.personal = true AND todo.isCompleted = true AND todo.title ILike :search)'
+          )
+          .setParameters({ userId: user, search: `%${search}%` });
+        break;
       }
       case TODO_FILTER.PUBLIC: {
-        const todos = await this.db.find({
-          where: {
-            userId: user,
-            personal: false,
-            title: ILike(`%${search}%`)
-          }
-        });
-
-        return todos;
+        queryBuilder = queryBuilder
+          .where('(todo.userId = :userId AND todo.personal = false AND todo.title ILike :search)')
+          .setParameters({ userId: user, search: `%${search}%` });
+        break;
       }
       case TODO_FILTER.PRIVATE: {
-        const todos = await this.db.find({
-          where: {
-            userId: user,
-            personal: true,
-            title: ILike(`%${search}%`)
-          }
-        });
-
-        return todos;
+        queryBuilder = queryBuilder
+          .where('(todo.userId = :userId AND todo.personal = true AND todo.title ILike :search)')
+          .setParameters({ userId: user, search: `%${search}%` });
+        break;
       }
-
       default:
         break;
     }
+
+    const [todos, totalCount] = await queryBuilder
+      .skip((page - 1) * pageSize)
+      .take(pageSize)
+      .getManyAndCount();
+
+    return { todos, totalCount, totalPages: Math.ceil(totalCount / pageSize) };
   }
 
   async getTodoById(id: string, user: string) {

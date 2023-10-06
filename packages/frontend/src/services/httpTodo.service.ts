@@ -1,5 +1,9 @@
 import { BACKEND_KEYS } from '../modules/common/consts/app-keys.const';
-import { AddTodoType, TodoType } from '../modules/common/types/student.types';
+import {
+  AddTodoType,
+  TodoType,
+  TodoWithPaginationType
+} from '../modules/common/types/student.types';
 import HttpService from './http.service';
 
 const URL = BACKEND_KEYS.TODOS;
@@ -11,9 +15,11 @@ export default class HttpTodoService {
     this.httpTodoService = new HttpService();
   }
 
-  async getTodos(filter = 'all', search = '') {
-    const { data } = await this.httpTodoService.get<TodoType[]>(
-      { url: `${URL}?filter=${filter}&search=${search}` },
+  async getTodos(filter = 'all', search = '', pageNumber = '1', limit = '5') {
+    const { data } = await this.httpTodoService.get<TodoWithPaginationType>(
+      {
+        url: `${URL}?pageNumber=${pageNumber}&limit=${limit}&filter=${filter}&search=${search}`
+      },
       true
     );
     return data;

@@ -18,7 +18,7 @@ export default class UserService {
   async getUserById(id: string) {
     const user = await this.db.findOneBy({ id });
     if (!user) {
-      throw HttpError(404, `User with id ${id} not found`);
+      throw HttpError(404, 'User not found');
     }
     return user;
   }

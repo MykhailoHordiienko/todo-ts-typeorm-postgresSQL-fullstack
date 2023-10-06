@@ -31,7 +31,7 @@ export const MainRouter = () => {
             <PrivateRout redirectTo={APP_KEYS.ROUTER_KEYS.ROOT} component={<HomePageContainer />} />
           }
         />
-        <Route path="*" element={<Error />} />
+        <Route path="*" element={<Error title="Wrong Address... Reload" />} />
       </Routes>
     </main>
   );

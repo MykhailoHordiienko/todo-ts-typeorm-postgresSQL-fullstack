@@ -10,6 +10,12 @@ export type AddTodoType = {
   description: string;
 };
 
+export type TodoWithPaginationType = {
+  todos: TodoType[];
+  totalCount: number;
+  totalPages: number;
+};
+
 export type AuthType = {
   email: string;
   password: string;
@@ -33,6 +39,12 @@ export type TodoViewType = TodoType & { handleModal: () => void };
 
 export type TodoListType = {
   todos: TodoType[];
+  nextPage?: () => void;
+  prevPage?: () => void;
+  handleCurrentPage?: () => void;
+  pageTotal?: number;
+  currentPage?: number;
+  totalTodos?: number;
 };
 
 export type ModalType = {
