@@ -6,11 +6,15 @@ export class TodoController {
 
   async getTodo(req: Request, res: Response) {
     const { user } = req;
-    const { filter, search } = req.query;
+    const { filter, search, pageNumber, limit } = req.query;
+    const page = pageNumber ? parseInt(pageNumber as string, 10) : 1;
+    const pageSize = limit ? parseInt(limit as string, 10) : 5;
     const todos = await this.todoService.getToDo(
       user as string,
       filter as string,
-      search as string
+      search as string,
+      page,
+      pageSize
     );
     res.send(todos);
   }

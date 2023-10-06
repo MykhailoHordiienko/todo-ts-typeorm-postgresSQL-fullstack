@@ -15,3 +15,12 @@ export const Tbody = styled.tbody`
     background-color: ${(props) => props.theme.COLORS.bgTable};
   }
 `;
+
+export const ButtonsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: ${(props) => props.theme.SPACES.m};
+  margin-bottom: ${(props) => props.theme.SPACES.xxl};
+  padding: ${(props) => props.theme.SPACES.m};
+`;

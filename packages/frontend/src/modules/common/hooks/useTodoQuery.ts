@@ -11,10 +11,10 @@ const todoService = new HttpTodoService();
 
 export const useTodosQuery = () => {
   const [searchParams] = useSearchParams();
-  const { filter, search } = Object.fromEntries([...searchParams]);
+  const { filter, search, pageNumber, limit } = Object.fromEntries([...searchParams]);
 
   const { data, isSuccess, isLoading, isError, refetch } = useQuery({
-    queryFn: () => todoService.getTodos(filter, search),
+    queryFn: () => todoService.getTodos(filter, search, pageNumber, limit),
     queryKey: [QUERY_KEYS.STATE, QUERY_KEYS.ALL],
     onError: (err: Error | AxiosError) => {
       if (axios.isAxiosError(err)) {
@@ -28,7 +28,7 @@ export const useTodosQuery = () => {
   });
   useEffect(() => {
     refetch();
-  }, [filter, search]);
+  }, [filter, search, pageNumber, limit]);
   return { data, isSuccess, isLoading, isError, refetch };
 };
 

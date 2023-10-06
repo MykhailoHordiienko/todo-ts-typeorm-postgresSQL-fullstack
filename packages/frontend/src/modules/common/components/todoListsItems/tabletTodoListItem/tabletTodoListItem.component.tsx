@@ -28,10 +28,7 @@ const TabletTodoListItem = ({ description, id, isCompleted, title, personal }: T
   return (
     <>
       <Styled.Item>
-        <Styled.Title>
-          {title}
-          {id}
-        </Styled.Title>
+        <Styled.Title>{title}</Styled.Title>
         <Styled.Description>{description}</Styled.Description>
 
         <Styled.Container>

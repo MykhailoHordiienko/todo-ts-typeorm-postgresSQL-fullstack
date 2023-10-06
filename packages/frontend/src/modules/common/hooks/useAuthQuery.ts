@@ -16,20 +16,14 @@ const TODOS_URL = `${APP_KEYS.ROUTER_KEYS.ROOT}${APP_KEYS.ROUTER_KEYS.TODOS}`;
 export const useAuthCurrent = () => {
   const navigate = useNavigate();
 
-  return useQuery({
+  const { isError, isLoading } = useQuery({
     queryFn: () => authService.current(),
     queryKey: [AUTH_KEY.USER],
-    onSuccess: () => navigate(TODOS_URL, { replace: true }),
-    onError: (err: Error | AxiosError) => {
-      if (axios.isAxiosError(err)) {
-        if (err?.response?.data.message !== 'Unauthorized') {
-          toast.error(err?.response?.data.message);
-        }
-      } else {
-        toast.error(`${err.message} Reload Please`);
-      }
+    onSuccess: () => {
+      navigate(TODOS_URL, { replace: true });
     }
   });
+  return { isError, isLoading };
 };
 
 export const useAuthSignIn = () => {
