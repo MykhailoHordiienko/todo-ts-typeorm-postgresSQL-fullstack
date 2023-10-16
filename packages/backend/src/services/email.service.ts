@@ -15,7 +15,7 @@ export default class EmailService {
 
   async sendVerificationEmail({ verificationToken, email }: TypeNodeMailer) {
     await this.transporter.sendMail({
-      from: process.env.SMTP_META_USER || 'cgscamp@meta.ua',
+      from: process.env.SMTP_META_USER || 'example@meta.ua',
       to: email,
       subject: 'Verify email',
       html: `
@@ -26,7 +26,7 @@ export default class EmailService {
 
   async sendPasswordResetEmail({ verificationToken, email }: TypeNodeMailer) {
     await this.transporter.sendMail({
-      from: process.env.SMTP_USER || 'antonnode@mail.ru',
+      from: process.env.SMTP_USER || 'example@meta.ua',
       to: email,
       subject: 'Password reset',
       html: `
