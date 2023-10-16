@@ -8,8 +8,8 @@ export default class EmailService {
     port: 465,
     secure: true,
     auth: {
-      user: process.env.SMTP_META_USER || 'cgscamp@meta.ua',
-      pass: process.env.SMTP_META_PASSWORD || 'Michaelqwe123'
+      user: process.env.SMTP_META_USER || 'example@meta.ua',
+      pass: process.env.SMTP_META_PASSWORD || 'example'
     }
   });
 
